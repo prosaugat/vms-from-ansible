@@ -1,0 +1,27 @@
+---
+- name: Create VM
+  vmware_guest:
+    hostname: "{{ vcenter_server }}"
+    username: "{{ vcenter_user }}"
+    password: "{{ vcenter_pass }}"
+    validate_certs: False
+    template: "add your own template name"
+    datacenter: "{{ datacenter_name }}"
+    folder: "{{ datacenter_name }}/vm"
+    datastore: "{{ datastore_name }}"
+    esxi_hostname: "192.168.x.x"
+    networks:
+      - name: "{{ network_name }}"
+        ip: "{{ item.ip_address }}"
+        netmask: "255.255.255.0"
+        gateway: "{{ gateway }}"
+        type: static
+    customization:
+      hostname: "{{ item.name }}-fromansible"
+    name: "{{ item.name }}"
+    state: poweredoff
+    wait_for_ip_address: yes
+    #power_on_after_clone: no
+  delegate_to: localhost
+
+

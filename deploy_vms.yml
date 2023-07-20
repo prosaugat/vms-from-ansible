@@ -1,0 +1,31 @@
+---
+- name: Deploy VMs
+  hosts: localhost
+  gather_facts: no
+  become: true
+
+  vars:
+    vcenter_server: "192.168.x.x"
+    vcenter_user: "myemail@example.com"
+    vcenter_pass: "myPASSWORD"
+    datacenter_name: "MY-DC"
+    datastore_name: "Datastore1"
+    network_name: "20-NET"
+    gateway: "192.168.x.x"
+    vm_specs:
+      - name: "VM1"
+        ip_address: "192.168.x.x"
+      - name: "VM2"
+        ip_address: "192.168.x.x"
+      - name: "VM3"
+        ip_address: "192.168.x.x"
+      - name: "VM4"
+        ip_address: "192.168.x.x"
+      # Add more VM names and IPs here as needed
+      - name: "VMn"
+        ip_address: "192.168.x.n"
+
+  tasks:
+    - name: Create VMs
+      include_tasks: create_vm.yml
+      loop: "{{ vm_specs }}"
